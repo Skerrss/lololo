@@ -2,19 +2,18 @@
     RewriteEngine On
     RewriteBase /
 
-    # Jika file atau folder yang diminta tidak ada, arahkan ke index.php
+    # Hilangkan index.php dari URL
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php/$1 [L]
 
-    # Pastikan akses ke file sistem tertentu diblokir
+    # Cegah akses ke file sensitif
     <FilesMatch "(?i)((\.env)|composer\.(json|lock)|\.gitignore|\.htaccess)">
-        Order allow,deny
-        Deny from all
+        Require all denied
     </FilesMatch>
 </IfModule>
 
-# Izinkan Googlebot dan crawler membaca file verifikasi
+# Izinkan file verifikasi Google
 <FilesMatch "google[a-z0-9]+\.html">
     Require all granted
 </FilesMatch>
