@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Jika file atau folder yang diminta tidak ada, arahkan ke index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+
+    # Pastikan akses ke file sistem tertentu diblokir
+    <FilesMatch "(?i)((\.env)|composer\.(json|lock)|\.gitignore|\.htaccess)">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+# Izinkan Googlebot dan crawler membaca file verifikasi
+<FilesMatch "google[a-z0-9]+\.html">
+    Require all granted
+</FilesMatch>
