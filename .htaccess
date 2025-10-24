@@ -1,19 +1,17 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # Ubah path ke folder index.php jika CodeIgniter tidak di root
+    # Misalnya jika aplikasi kamu di folder /myapp/, gunakan: RewriteBase /myapp/
     RewriteBase /
 
-    # Hilangkan index.php dari URL
+    # Jika file atau direktori yang diminta tidak ada
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L]
 
-    # Cegah akses ke file sensitif
-    <FilesMatch "(?i)((\.env)|composer\.(json|lock)|\.gitignore|\.htaccess)">
-        Require all denied
-    </FilesMatch>
+    # Arahkan semua request ke index.php
+    RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
 
-# Izinkan file verifikasi Google
-<FilesMatch "google[a-z0-9]+\.html">
-    Require all granted
-</FilesMatch>
+# Nonaktifkan directory listing
+Options -Indexes
